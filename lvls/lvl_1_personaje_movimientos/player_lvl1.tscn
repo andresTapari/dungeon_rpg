@@ -9,7 +9,7 @@
 [ext_resource path="res://assets/png/0x72_DungeonTilesetII_v1.4/frames/knight_m_run_anim_f2.png" type="Texture" id=7]
 [ext_resource path="res://assets/png/0x72_DungeonTilesetII_v1.4/frames/knight_m_idle_anim_f0.png" type="Texture" id=8]
 [ext_resource path="res://assets/png/0x72_DungeonTilesetII_v1.4/frames/knight_m_run_anim_f3.png" type="Texture" id=9]
-[ext_resource path="res://lvls/lvl_1_personaje_movimientos/player.gd" type="Script" id=10]
+[ext_resource path="res://lvls/lvl_1_personaje_movimientos/player_lvl1.gd" type="Script" id=10]
 [ext_resource path="res://assets/png/0x72_DungeonTilesetII_v1.4/frames/weapon_red_gem_sword.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -31,7 +31,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 5, 7.25 )
+extents = Vector2( 5, 9 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -123,7 +123,7 @@ script = ExtResource( 10 )
 position = Vector2( 0, -6 )
 frames = SubResource( 1 )
 animation = "run"
-frame = 3
+frame = 1
 playing = true
 
 [node name="WeaponAim" type="Position2D" parent="AnimatedSprite"]
@@ -131,7 +131,7 @@ position = Vector2( 0, 6 )
 
 [node name="Hand" type="Position2D" parent="AnimatedSprite/WeaponAim"]
 position = Vector2( 11, -4 )
-rotation = -0.19705
+rotation = -0.197049
 __meta__ = {
 "_edit_group_": true
 }
@@ -141,7 +141,7 @@ position = Vector2( 0, -8 )
 texture = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -0.75 )
+position = Vector2( 0, -1 )
 shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
