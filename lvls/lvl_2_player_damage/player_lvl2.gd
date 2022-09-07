@@ -1,20 +1,23 @@
 extends KinematicBody2D
 
+# Señales:
+signal player_damagged
+
+
 export var speed = 200
+
 # Nodos:
-
-onready var animatedSprite := $AnimatedSprite
-onready var weaponAim := $AnimatedSprite/WeaponAim
+onready var animatedSprite 	:= $AnimatedSprite
+onready var weaponAim 		:= $AnimatedSprite/WeaponAim
 onready var animationPlayer := $AnimationPlayer
-
+onready var knockBackTimer  := $KnockBackTimer
 
 # Variables:
-var dir: Vector2 = Vector2.ZERO				# Vector direccion del personaje
-var velocity: Vector2 = Vector2.ZERO		# Vector velocidad del personaje
-
-func _ready()-> void:
-	pass
-	#set_process(true)
+var dir: Vector2 		  = Vector2.ZERO		# Vector direccion del personaje
+var velocity: Vector2 	  = Vector2.ZERO		# Vector velocidad del personaje
+var knockBackForce: int   = 2000				# Fuerca de empuje
+var playerHitted: bool    = false				# Bandera si player fue golpeado
+var knockBackDir: Vector2 = Vector2.ZERO		# Dirección de impulso hacia atras
 
 # Loop principal:
 func _physics_process(delta):
@@ -53,22 +56,42 @@ func _physics_process(delta):
 	# si no:
 	else:
 		# nodo de animación reproduce "correr"
-		animatedSprite.play("run")	
+		animatedSprite.play("run")
 	# Si precionamos la tecla hit
 	if Input.is_action_just_pressed("ui_hit"):
 		# Reproducimos la animación wepaon hit:
 		animationPlayer.play("weapon hit")
-	# Cargamos la dirección normalizada por la velocidad en el vector velocidad.
-	velocity = dir.normalized() * speed * delta
+	
+	# Si player se encuentra golpeado
+	if playerHitted:
+		# se mueve en direccion del golpe
+		velocity = move_and_slide(knockBackDir*knockBackForce*delta,Vector2.UP)
+		# reproduce la animación hit
+		animatedSprite.play('hit')
+	else:
+		# Cargamos la dirección normalizada por la velocidad en el vector velocidad.
+		velocity = dir.normalized() * speed * delta
+	
 	# Movemos el personaje
 	velocity = move_and_slide(velocity,Vector2.UP)
 	
 #	update()
 
 func hit(damage: int) -> void:
-	#Funcion si percibe daño
-	pass
+	# dirección de salto hacia atras sera inverso a dir
+	knockBackDir = -dir
+	# establecemos estado de player golpeado = true
+	playerHitted = true
+	# iniciamos el timer
+	knockBackTimer.start()
+	# emitimos señal de player golpeado para sacudir la camara
+	emit_signal('player_damagged')	
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	# Cuando termina la animación reproducimos idle
 	animationPlayer.play("weapon idle")
+
+func _on_KnockBackTimer_timeout() -> void:
+	# cuando termina el tiempo de knockback
+	# estado de player golpeado es falso
+	playerHitted = false

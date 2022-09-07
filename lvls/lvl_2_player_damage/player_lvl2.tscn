@@ -149,4 +149,9 @@ anims/RESET = SubResource( 3 )
 "anims/weapon hit" = SubResource( 5 )
 "anims/weapon idle" = SubResource( 4 )
 
+[node name="KnockBackTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="KnockBackTimer" to="." method="_on_KnockBackTimer_timeout"]
