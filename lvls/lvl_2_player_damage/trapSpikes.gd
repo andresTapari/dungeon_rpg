@@ -10,3 +10,7 @@ func _on_trapSpike_body_entered(body):
 	if enable:
 		animationPlayer.play("hit")
 		body.hit(damage)
+
+
+func _on_Timer_timeout():
+	pass # Replace with function body.
