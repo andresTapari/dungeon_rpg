@@ -123,6 +123,7 @@ script = ExtResource( 10 )
 position = Vector2( 0, -6 )
 frames = SubResource( 1 )
 animation = "run"
+frame = 3
 playing = true
 
 [node name="WeaponAim" type="Position2D" parent="AnimatedSprite"]

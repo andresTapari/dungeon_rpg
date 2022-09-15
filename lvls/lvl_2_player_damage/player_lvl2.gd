@@ -15,9 +15,12 @@ onready var knockBackTimer  := $KnockBackTimer
 # Variables:
 var dir: Vector2 		  = Vector2.ZERO		# Vector direccion del personaje
 var velocity: Vector2 	  = Vector2.ZERO		# Vector velocidad del personaje
+var knockBackDir: Vector2 = Vector2.ZERO		# Dirección de impulso hacia atras
 var knockBackForce: int   = 2000				# Fuerca de empuje
 var playerHitted: bool    = false				# Bandera si player fue golpeado
-var knockBackDir: Vector2 = Vector2.ZERO		# Dirección de impulso hacia atras
+
+var maxHealth = 10
+var health = maxHealth
 
 # Loop principal:
 func _physics_process(delta):
@@ -78,6 +81,7 @@ func _physics_process(delta):
 #	update()
 
 func hit(damage: int) -> void:
+	health -= damage
 	# dirección de salto hacia atras sera inverso a dir
 	knockBackDir = -dir
 	# establecemos estado de player golpeado = true
