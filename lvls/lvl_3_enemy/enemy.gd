@@ -76,3 +76,10 @@ func _on_Timer_timeout():
 			target_pos = position + new_pos
 			# Salimos del while
 			break
+
+
+func _on_Area2D2_body_entered(body):
+	# si el body es del grupo player
+	if body.is_in_group("player"):
+		# llama a hit del player
+		body.hit(dammage, (target_pos - position).normalized())

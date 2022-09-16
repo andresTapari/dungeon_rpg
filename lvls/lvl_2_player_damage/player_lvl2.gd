@@ -80,10 +80,12 @@ func _physics_process(delta):
 	
 #	update()
 
-func hit(damage: int) -> void:
+func hit(damage: int, damage_direction: Vector2 = Vector2.ZERO) -> void:
 	health -= damage
 	# dirección de salto hacia atras sera inverso a dir
 	knockBackDir = -dir
+	if damage_direction.length() != 0:
+		knockBackDir = damage_direction
 	# establecemos estado de player golpeado = true
 	playerHitted = true
 	# iniciamos el timer
