@@ -91,7 +91,7 @@ func hit(damage: int) -> void:
 	# emitimos señal de player golpeado para sacudir la camara
 	emit_signal('player_damagged')	
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	# Cuando termina la animación reproducimos idle
 	animationPlayer.play("weapon idle")
 
