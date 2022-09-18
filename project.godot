@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "SimpleUnit2D",
+"language": "GDScript",
+"path": "res://script/SimpleUnit2D.gd"
+} ]
+_global_script_class_icons={
+"SimpleUnit2D": ""
+}
+
 [application]
 
 config/name="Dungeon RPG"

@@ -99,8 +99,11 @@ cast_to = Vector2( 0, 56 )
 collision_mask = 2
 collide_with_areas = true
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer_move" type="Timer" parent="."]
 autostart = true
+
+[node name="Timer_atk" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="Area2D2" type="Area2D" parent="."]
 
@@ -109,5 +112,6 @@ shape = SubResource( 6 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="Timer_move" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="Timer_atk" to="." method="_on_Timer_atk_timeout"]
 [connection signal="body_entered" from="Area2D2" to="." method="_on_Area2D2_body_entered"]

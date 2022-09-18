@@ -3,22 +3,24 @@ extends KinematicBody2D
 # Nodos:
 onready var animationPlayer  := $AnimationPlayer
 onready var animationSprite  := $AnimatedSprite
-onready var timer			 := $Timer
+onready var timer			 := $Timer_move
+onready var timer_atk		 := $Timer_atk
 onready var rayCast          := $RayCast2D
 
 # Propiedades generales
-export var velocity: int = 2500				# Velocidad de movimiento
-export var dammage: int = 1					# Daño del enemigo
-export var max_time_to_wait: int = 5		# Tiempo maximo de espera para moverse
-export var min_time_to_wait: int = 0		# Tiempo minimo de espera
+export var velocity: int = 2500			# Velocidad de movimiento
+export var dammage: int = 1				# Daño del enemigo
+export var max_time_to_wait: int = 5	# Tiempo maximo de espera para moverse
+export var min_time_to_wait: int = 0	# Tiempo minimo de espera
 
 # Variables:
-var target: KinematicBody2D					# Variable donde guaramos a target
-var target_pos: Vector2 = Vector2.ZERO		# Posición del target a donde moverse
-var dir: Vector2 = Vector2.ZERO				# Vector de dirección
-var tolerancia: int = 10					# Tolerancia de desplazamiento
-var movement_range: int = 100				# Rango de movimiento aleatorio
-
+var target: KinematicBody2D				# Variable donde guaramos a target
+var target_pos: Vector2 = Vector2.ZERO	# Posición del target a donde moverse
+var dir: Vector2 = Vector2.ZERO			# Vector de dirección
+var tolerancia: int = 10				# Tolerancia de desplazamiento
+var movement_range: int = 100			# Rango de movimiento aleatorio
+var atk_enable: bool = false			# Bandera si puede atacar
+var atk_range: int = 15					# Rango de ataque
 
 func _process(delta):
 	# Si el target pos es distinto de zero
@@ -41,20 +43,17 @@ func _process(delta):
 		else:
 			# Reproducimos animación estar
 			animationPlayer.play("idle")
-
+	if atk_enable:
+		if (target_pos - position).length() < atk_range:
+			target.hit(dammage, (target_pos - position).normalized())
+			atk_enable = false
 # Señales:
-func _on_Area2D_body_exited(body):
-	# Si body esta en el grupo player
-	if body.is_in_group("player"):
-		# asigna body a target
-		target = null
-
-
 func _on_Area2D_body_entered(body):
 	# Si body esta en el grupo player
 	if body.is_in_group("player"):
 		# asigna body a target
 		target = body
+		timer_atk.start()
 
 func _on_Timer_timeout():
 	# Actualizamos la semilla aleatoria
@@ -77,9 +76,19 @@ func _on_Timer_timeout():
 			# Salimos del while
 			break
 
-
 func _on_Area2D2_body_entered(body):
 	# si el body es del grupo player
 	if body.is_in_group("player"):
-		# llama a hit del player
-		body.hit(dammage, (target_pos - position).normalized())
+		# Activa el timer de ataque
+		timer_atk.start()
+
+func _on_Area2D_body_exited(body):
+	# Si body esta en el grupo player
+	if body.is_in_group("player"):
+		# asigna body a target
+		target = null
+		# detenemos el timer
+		timer_atk.stop()
+
+func _on_Timer_atk_timeout() -> void:
+	atk_enable = true
