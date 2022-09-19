@@ -32,12 +32,12 @@ collision_mask = 3
 speed = 5000
 
 [node name="enemy" parent="." instance=ExtResource( 4 )]
-position = Vector2( 224, 96 )
+position = Vector2( 216, 104 )
 collision_layer = 3
 collision_mask = 3
 
 [node name="enemy3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 272, 128 )
+position = Vector2( 280, 136 )
 collision_layer = 3
 collision_mask = 3
 

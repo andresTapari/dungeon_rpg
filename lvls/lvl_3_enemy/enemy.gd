@@ -29,6 +29,7 @@ func _process(delta):
 		if target:
 			# Asignamos la posición del target 
 			target_pos = target.position
+
 		# Si la distancia hacia target es mayor a la tolerancia
 		if (target_pos - position).length() > tolerancia:
 			# Reproducimos animación de correr
@@ -43,17 +44,27 @@ func _process(delta):
 		else:
 			# Reproducimos animación estar
 			animationPlayer.play("idle")
+
 	if atk_enable:
 		if (target_pos - position).length() < atk_range:
 			target.hit(dammage, (target_pos - position).normalized())
 			atk_enable = false
+
 # Señales:
-func _on_Area2D_body_entered(body):
+func _on_FOV_body_entered(body):
 	# Si body esta en el grupo player
 	if body.is_in_group("player"):
 		# asigna body a target
 		target = body
 		timer_atk.start()
+
+func _on_FOV_body_exited(body):
+	# Si body esta en el grupo player
+	if body.is_in_group("player"):
+		# asigna body a target
+		target = null
+		# detenemos el timer
+		timer_atk.stop()
 
 func _on_Timer_timeout():
 	# Actualizamos la semilla aleatoria
@@ -75,20 +86,6 @@ func _on_Timer_timeout():
 			target_pos = position + new_pos
 			# Salimos del while
 			break
-
-func _on_Area2D2_body_entered(body):
-	# si el body es del grupo player
-	if body.is_in_group("player"):
-		# Activa el timer de ataque
-		timer_atk.start()
-
-func _on_Area2D_body_exited(body):
-	# Si body esta en el grupo player
-	if body.is_in_group("player"):
-		# asigna body a target
-		target = null
-		# detenemos el timer
-		timer_atk.stop()
 
 func _on_Timer_atk_timeout() -> void:
 	atk_enable = true
