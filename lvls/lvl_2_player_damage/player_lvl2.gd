@@ -9,7 +9,7 @@ export var speed = 200
 # Nodos:
 onready var animatedSprite 	:= $AnimatedSprite
 onready var weaponAim 		:= $AnimatedSprite/WeaponAim
-onready var animationPlayer := $AnimationPlayer
+onready var animationPlayer := $AnimatedSprite/WeaponAim/AnimationPlayer
 onready var knockBackTimer  := $KnockBackTimer
 
 # Variables:
@@ -95,7 +95,7 @@ func hit(damage: int, damage_direction: Vector2 = Vector2.ZERO) -> void:
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
 	# Cuando termina la animación reproducimos idle
-	animationPlayer.play("weapon idle")
+	animationPlayer.play("idle")
 
 func _on_KnockBackTimer_timeout() -> void:
 	# cuando termina el tiempo de knockback

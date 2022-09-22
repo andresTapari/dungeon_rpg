@@ -13,14 +13,13 @@ export var dammage: int = 1				# Daño del enemigo
 export var max_time_to_wait: int = 5	# Tiempo maximo de espera para moverse
 export var min_time_to_wait: int = 0	# Tiempo minimo de espera
 
-# Variables:
 var target: KinematicBody2D				# Variable donde guaramos a target
 var target_pos: Vector2 = Vector2.ZERO	# Posición del target a donde moverse
-var dir: Vector2 = Vector2.ZERO			# Vector de dirección
-var tolerancia: int = 10				# Tolerancia de desplazamiento
+var dir: 		Vector2 = Vector2.ZERO	# Vector de dirección
+var tolerancia: 	int = 10			# Tolerancia de desplazamiento
 var movement_range: int = 100			# Rango de movimiento aleatorio
-var atk_enable: bool = false			# Bandera si puede atacar
-var atk_range: int = 15					# Rango de ataque
+var atk_enable:    bool = false			# Bandera si puede atacar
+var atk_range: 		int = 15			# Rango de ataque
 
 func _process(delta):
 	# Si el target pos es distinto de zero
@@ -47,7 +46,8 @@ func _process(delta):
 
 	if atk_enable:
 		if (target_pos - position).length() < atk_range:
-			target.hit(dammage, (target_pos - position).normalized())
+			if target: 
+				target.hit(dammage, (target_pos - position).normalized())
 			atk_enable = false
 
 # Señales:
