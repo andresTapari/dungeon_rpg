@@ -40,9 +40,11 @@ script = ExtResource( 10 )
 position = Vector2( 0, -6 )
 frames = SubResource( 1 )
 animation = "run"
+frame = 1
 playing = true
 
 [node name="WeaponAim" parent="AnimatedSprite" instance=ExtResource( 11 )]
+position = Vector2( 0, 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -2 )

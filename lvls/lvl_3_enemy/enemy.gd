@@ -20,7 +20,12 @@ var tolerancia: 	int = 10			# Tolerancia de desplazamiento
 var movement_range: int = 100			# Rango de movimiento aleatorio
 var atk_enable:    bool = false			# Bandera si puede atacar
 var atk_range: 		int = 15			# Rango de ataque
+var top_life:		int = 10
+var current_life:	int = top_life
 
+func _ready() -> void:
+	$UnitHealthBar.update_value(top_life,current_life)
+	
 func _process(delta):
 	# Si el target pos es distinto de zero
 	if target_pos != Vector2.ZERO:
@@ -49,6 +54,12 @@ func _process(delta):
 			if target: 
 				target.hit(dammage, (target_pos - position).normalized())
 			atk_enable = false
+
+func hurt(damage):
+	current_life -= damage
+	$UnitHealthBar.update_value(top_life,current_life)
+	if current_life<=0:
+		queue_free()
 
 # Señales:
 func _on_FOV_body_entered(body):

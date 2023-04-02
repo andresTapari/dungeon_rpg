@@ -3,14 +3,17 @@ extends KinematicBody2D
 # Señales:
 signal player_damagged
 
+# Nodos:
+onready var BULLET = preload('res://lvls/lvl_3_enemy/bullet.tscn')
 
 export var speed = 200
 
 # Nodos:
 onready var animatedSprite 	:= $AnimatedSprite
 onready var weaponAim 		:= $AnimatedSprite/WeaponAim
-onready var animationPlayer := $AnimatedSprite/WeaponAim/AnimationPlayer
+onready var animationPlayer := $AnimatedSprite/WeaponAim/Hand/AnimatedSprite
 onready var knockBackTimer  := $KnockBackTimer
+onready var muzzle			:= $AnimatedSprite/WeaponAim/Hand/muzzle
 
 # Variables:
 var dir: Vector2 		  = Vector2.ZERO		# Vector direccion del personaje
@@ -63,8 +66,10 @@ func _physics_process(delta):
 	# Si precionamos la tecla hit
 	if Input.is_action_just_pressed("ui_hit"):
 		# Reproducimos la animación wepaon hit:
-		animationPlayer.play("weapon hit")
-	
+		#animationPlayer.play("weapon hit")
+		animationPlayer.play("shoot")
+		shoot()
+		pass
 	# Si player se encuentra golpeado
 	if playerHitted:
 		# se mueve en direccion del golpe
@@ -92,6 +97,13 @@ func hit(damage: int, damage_direction: Vector2 = Vector2.ZERO) -> void:
 	knockBackTimer.start()
 	# emitimos señal de player golpeado para sacudir la camara
 	emit_signal('player_damagged')	
+
+func shoot():
+	var bullet = BULLET.instance()
+	muzzle.add_child(bullet)
+	bullet.set_as_toplevel(true)
+	bullet.look_at(get_global_mouse_position()-position)
+	bullet.global_position = muzzle.get_global_position()
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
 	# Cuando termina la animación reproducimos idle

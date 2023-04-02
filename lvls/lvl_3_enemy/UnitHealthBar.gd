@@ -1,10 +1,10 @@
 extends TextureProgress
 
-func update_value(topValue: int, value: int) -> void:
+func update_value(topValue: int, _value: int) -> void:
 	# Establecemos el valor maximo
 	max_value = topValue
 	# Establecemos el valor actual
-	value = value
+	value = _value
 	# Si el valor es mayor a 70%
 	if value > 0.7*topValue:
 		# Coloreamos la barra de progreso en verde
